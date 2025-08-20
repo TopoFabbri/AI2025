@@ -626,8 +626,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 64132647}
-  speed: 2
-  explodeDistance: 5
+  speed: 4
+  explodeDistance: 2
   lostDistance: 10
   wayPoint1: {fileID: 1096561561}
   wayPoint2: {fileID: 1856888278}

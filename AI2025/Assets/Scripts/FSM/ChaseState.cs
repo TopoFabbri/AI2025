@@ -1,20 +1,21 @@
-﻿using Pool;
+﻿using System;
+using Pool;
 using UnityEngine;
 
 namespace FSM
 {
     public sealed class ChaseState : State
     {
-        public override BehaviourActions GetOnEnterBehaviours(params object[] parameters)
+        public override Type[] OnTickParamTypes => new[]
         {
-            return null;
-        }
-
-        public override BehaviourActions GetOnExitBehaviour(params object[] parameters)
-        {
-            return null;
-        }
-
+            typeof(Transform),
+            typeof(Transform),
+            typeof(float),
+            typeof(float),
+            typeof(float),
+            typeof(float)
+        };
+        
         public override BehaviourActions GetOnTickBehaviours(params object[] parameters)
         {
             Transform agentTransform = parameters[0] as Transform;

@@ -54,7 +54,12 @@ namespace FSM
         {
             if (!states.ContainsKey(Convert.ToInt32(stateIndex)))
             {
-                TState state = new TState();
+                TState state = new();
+                
+                ValidateParams(state.OnEnterParamTypes, onEnterParameters);
+                ValidateParams(state.OnTickParamTypes, onTickParameters);
+                ValidateParams(state.OnExitParamTypes, onExitParameters);
+                
                 state.OnFlag += Transition;
                 states.Add(Convert.ToInt32(stateIndex), state);
                 behaviourOnTickParameters.Add(Convert.ToInt32(stateIndex), onTickParameters);
@@ -137,6 +142,25 @@ namespace FSM
 
             behaviourActions.TransitionBehaviour?.Invoke();
             ConcurrentPool.Release(behaviourActions);
+        }
+
+        public void ValidateParams(Type[] expectedParams, Func<object[]> receivedParams)
+        {
+            if (expectedParams.Length == 0 && receivedParams == null) return;
+
+            List<Type> receivedParamTypes = new();
+            
+            foreach (object param in receivedParams.Invoke())
+                receivedParamTypes.Add(param.GetType());
+
+            if (expectedParams.Length != receivedParamTypes.Count)
+                throw new ArgumentException("Wrong number of parameters");
+
+            for (int i = 0; i < expectedParams.Length; i++)
+            {
+                if (!expectedParams[i].IsAssignableFrom(receivedParamTypes[i]))
+                    throw new InvalidCastException("Param " + i + ". Type: " + receivedParamTypes[i].Name + ". Expected type: " + expectedParams[i].Name);
+            }
         }
     }
 }

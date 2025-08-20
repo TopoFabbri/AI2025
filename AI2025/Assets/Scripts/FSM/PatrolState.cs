@@ -1,4 +1,5 @@
-﻿using Pool;
+﻿using System;
+using Pool;
 using UnityEngine;
 
 namespace FSM
@@ -7,15 +8,8 @@ namespace FSM
     {
         private Transform actualTarget;
 
-        public override BehaviourActions GetOnEnterBehaviours(params object[] parameters)
-        {
-            return null;
-        }
-
-        public override BehaviourActions GetOnExitBehaviour(params object[] parameters)
-        {
-            return null;
-        }
+        public override Type[] OnTickParamTypes =>
+            new[] { typeof(Transform), typeof(Transform), typeof(Transform), typeof(Transform), typeof(float), typeof(float), typeof(float) };
 
         public override BehaviourActions GetOnTickBehaviours(params object[] parameters)
         {
@@ -37,7 +31,7 @@ namespace FSM
                 }
 
                 if (agentTransform != null && actualTarget != null && !(Vector3.Distance(agentTransform.position, actualTarget.position) < 0.1f)) return;
-                
+
                 actualTarget = actualTarget == wayPoint1 ? wayPoint2 : wayPoint1;
             });
 
@@ -46,7 +40,7 @@ namespace FSM
                 if (agentTransform != null) agentTransform.position += (actualTarget.position - agentTransform.position).normalized * speed * deltaTime;
             });
 
-            behaviourActions.SetTransitionBehaviour(() => 
+            behaviourActions.SetTransitionBehaviour(() =>
             {
                 if (agentTransform && targetTransform && Vector3.Distance(agentTransform.position, targetTransform.position) <= chaseDistance)
                 {

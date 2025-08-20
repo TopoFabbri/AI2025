@@ -12,11 +12,6 @@ namespace FSM
             return behaviourActions;
         }
 
-        public override BehaviourActions GetOnExitBehaviour(params object[] parameters)
-        {
-            return null;
-        }
-
         public override BehaviourActions GetOnTickBehaviours(params object[] parameters)
         {
             BehaviourActions behaviourActions = ConcurrentPool.Get<BehaviourActions>();
