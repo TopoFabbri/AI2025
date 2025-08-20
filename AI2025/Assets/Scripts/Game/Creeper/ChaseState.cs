@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Creeper;
 using Pool;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ namespace FSM
 
             BehaviourActions behaviourActions = ConcurrentPool.Get<BehaviourActions>();
 
-            behaviourActions.AddMainThreadableBehaviour(0, () =>
+            behaviourActions.AddMainThreadBehaviour(0, () =>
             {
                 if (!agentTransform) return;
                 

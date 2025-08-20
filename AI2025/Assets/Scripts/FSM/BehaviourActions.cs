@@ -13,7 +13,7 @@ namespace FSM
 
         public Action TransitionBehaviour { get; private set; }
 
-        public void AddMainThreadableBehaviour(int executionOrder, Action behaviour)
+        public void AddMainThreadBehaviour(int executionOrder, Action behaviour)
         {
             MainThreadBehaviours ??= new Dictionary<int, List<Action>>();
             

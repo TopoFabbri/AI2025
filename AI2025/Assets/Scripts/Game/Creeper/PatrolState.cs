@@ -1,8 +1,9 @@
 ﻿using System;
+using FSM;
 using Pool;
 using UnityEngine;
 
-namespace FSM
+namespace Game.Creeper
 {
     public sealed class PatrolState : State
     {
@@ -23,7 +24,7 @@ namespace FSM
 
             BehaviourActions behaviourActions = ConcurrentPool.Get<BehaviourActions>();
 
-            behaviourActions.AddMainThreadableBehaviour(0, () =>
+            behaviourActions.AddMainThreadBehaviour(0, () =>
             {
                 if (actualTarget == null)
                 {
@@ -35,7 +36,7 @@ namespace FSM
                 actualTarget = actualTarget == wayPoint1 ? wayPoint2 : wayPoint1;
             });
 
-            behaviourActions.AddMainThreadableBehaviour(1, () =>
+            behaviourActions.AddMainThreadBehaviour(1, () =>
             {
                 if (agentTransform != null) agentTransform.position += (actualTarget.position - agentTransform.position).normalized * speed * deltaTime;
             });
