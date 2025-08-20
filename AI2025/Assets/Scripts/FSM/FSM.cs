@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Pool;
 
 namespace FSM
 {
@@ -95,48 +97,46 @@ namespace FSM
 
         private void ExecuteBehaviour(BehaviourActions behaviourActions)
         {
-            if (behaviourActions.Equals(null))
+            if (behaviourActions == null)
                 return;
 
-            int excecutionOrder = 0;
+            int executionOrder = 0;
 
             while ((behaviourActions.MainThreadBehaviours != null && behaviourActions.MainThreadBehaviours.Count > 0) ||
                    behaviourActions.MultiThreadableBehaviours != null && behaviourActions.MultiThreadableBehaviours.Count > 0)
             {
-                Task multithradableBehabiour = new Task(() =>
+                Task multithradableBehaviour = new(() =>
                 {
-                    if (behaviourActions.MultiThreadableBehaviours != null)
+                    if (behaviourActions.MultiThreadableBehaviours == null) return;
+                    if (!behaviourActions.MultiThreadableBehaviours.TryGetValue(executionOrder, out ConcurrentBag<Action> currentBehaviour)) return;
+                    
+                    Parallel.ForEach(currentBehaviour, parallelOptions, (behaviour) =>
                     {
-                        if (behaviourActions.MultiThreadableBehaviours.ContainsKey(excecutionOrder))
-                        {
-                            Parallel.ForEach(behaviourActions.MultiThreadableBehaviours[excecutionOrder], parallelOptions, (behaviour) =>
-                            {
-                                behaviour?.Invoke();
-                            });
-                            behaviourActions.MultiThreadableBehaviours.TryRemove(excecutionOrder, out _);
-                        }
-                    }
+                        behaviour?.Invoke();
+                    });
+                    behaviourActions.MultiThreadableBehaviours.TryRemove(executionOrder, out _);
                 });
 
-                multithradableBehabiour.Start();
+                multithradableBehaviour.Start();
 
                 if (behaviourActions.MainThreadBehaviours != null)
                 {
-                    if (behaviourActions.MainThreadBehaviours.ContainsKey(excecutionOrder))
+                    if (behaviourActions.MainThreadBehaviours.ContainsKey(executionOrder))
                     {
-                        foreach (Action behaviour in behaviourActions.MainThreadBehaviours[excecutionOrder])
+                        foreach (Action behaviour in behaviourActions.MainThreadBehaviours[executionOrder])
                         {
                             behaviour?.Invoke();
                         }
-                        behaviourActions.MainThreadBehaviours.Remove(excecutionOrder);
+                        behaviourActions.MainThreadBehaviours.Remove(executionOrder);
                     }
                 }
 
-                multithradableBehabiour?.Wait();
-                excecutionOrder++;
+                multithradableBehaviour?.Wait();
+                executionOrder++;
             }
 
             behaviourActions.TransitionBehaviour?.Invoke();
+            ConcurrentPool.Release(behaviourActions);
         }
     }
 }
