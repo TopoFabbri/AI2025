@@ -1,19 +1,22 @@
-﻿public class Node<Coordinate> : INode, INode<Coordinate>
+﻿namespace Pathfinder
 {
-    private Coordinate coordinate;
-
-    public void SetCoordinate(Coordinate coordinate)
+    public class Node<TCoordinate> : INode, INode<TCoordinate>
     {
-        this.coordinate = coordinate;
-    }
+        private TCoordinate coordinate;
 
-    public Coordinate GetCoordinate()
-    {
-        return coordinate;
-    }
+        public void SetCoordinate(TCoordinate coordinate)
+        {
+            this.coordinate = coordinate;
+        }
 
-    public bool IsBloqued()
-    {
-        return false;
+        public TCoordinate GetCoordinate()
+        {
+            return coordinate;
+        }
+
+        public bool IsBlocked()
+        {
+            return false;
+        }
     }
 }

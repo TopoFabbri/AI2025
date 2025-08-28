@@ -1,29 +1,32 @@
 ﻿using System.Collections.Generic;
 
-public class DepthFirstPathfinder<NodeType> : Pathfinder<NodeType> where NodeType : INode
+namespace Pathfinder
 {
-    protected override int Distance(NodeType A, NodeType B)
+    public class DepthFirstPathfinder<TNodeType> : Pathfinder<TNodeType> where TNodeType : INode
     {
-        throw new System.NotImplementedException();
-    }
+        protected override int Distance(TNodeType a, TNodeType b)
+        {
+            throw new System.NotImplementedException();
+        }
 
-    protected override ICollection<NodeType> GetNeighbors(NodeType node)
-    {
-        throw new System.NotImplementedException();
-    }
+        protected override ICollection<TNodeType> GetNeighbors(TNodeType node)
+        {
+            throw new System.NotImplementedException();
+        }
 
-    protected override bool IsBloqued(NodeType node)
-    {
-        throw new System.NotImplementedException();
-    }
+        protected override bool IsBloqued(TNodeType node)
+        {
+            throw new System.NotImplementedException();
+        }
 
-    protected override int MoveToNeighborCost(NodeType A, NodeType b)
-    {
-        throw new System.NotImplementedException();
-    }
+        protected override int MoveToNeighborCost(TNodeType a, TNodeType b)
+        {
+            throw new System.NotImplementedException();
+        }
 
-    protected override bool NodesEquals(NodeType A, NodeType B)
-    {
-        throw new System.NotImplementedException();
+        protected override bool NodesEquals(TNodeType a, TNodeType b)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

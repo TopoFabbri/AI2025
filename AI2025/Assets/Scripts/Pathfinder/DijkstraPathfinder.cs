@@ -2,7 +2,7 @@
 
 namespace Pathfinder
 {
-    public class BreadthFirstPathfinder<TNodeType> : Pathfinder<TNodeType> where TNodeType : INode
+    public class DijkstraPathfinder<TNodeType> : Pathfinder<TNodeType> where TNodeType : INode
     {
         protected override int Distance(TNodeType a, TNodeType b)
         {
