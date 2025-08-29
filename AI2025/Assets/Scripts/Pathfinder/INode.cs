@@ -5,7 +5,7 @@
         public bool IsBlocked();
     }
 
-    public interface INode<TCoordinate> 
+    public interface INode<TCoordinate> where TCoordinate : ICoordinate 
     {
         public void SetCoordinate(TCoordinate coordinateType);
         public TCoordinate GetCoordinate();

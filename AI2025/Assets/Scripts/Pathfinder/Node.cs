@@ -1,6 +1,6 @@
 ﻿namespace Pathfinder
 {
-    public class Node<TCoordinate> : INode, INode<TCoordinate>
+    public class Node<TCoordinate> : INode, INode<TCoordinate> where TCoordinate : ICoordinate
     {
         private TCoordinate coordinate;
 

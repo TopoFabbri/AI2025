@@ -8,33 +8,33 @@ namespace Pathfinder
     {
         public GraphView graphView;
     
-        private DepthFirstPathfinder<Node<Vector2Int>> pathfinder;
+        private DepthFirstPathfinder<Node<Coordinate>> pathfinder;
         //private BreadthFirstPathfinder<Node<Vector2Int>> Pathfinder;
         //private DijstraPathfinder<Node<Vector2Int>> Pathfinder;
         //private AStarPathfinder<Node<Vector2Int>> Pathfinder;
 
-        private Node<Vector2Int> startNode; 
-        private Node<Vector2Int> destinationNode;
+        private Node<Coordinate> startNode; 
+        private Node<Coordinate> destinationNode;
 
         private void Start()
         {
-            pathfinder = new DepthFirstPathfinder<Node<Vector2Int>>();
+            pathfinder = new DepthFirstPathfinder<Node<Coordinate>>();
         
-            startNode = new Node<Vector2Int>();
-            startNode.SetCoordinate(new Vector2Int(Random.Range(0, 10), Random.Range(0, 10)));
+            startNode = new Node<Coordinate>();
+            startNode.SetCoordinate(new Coordinate(Random.Range(0, 10), Random.Range(0, 10)));
 
-            destinationNode = new Node<Vector2Int>();
-            destinationNode.SetCoordinate(new Vector2Int(Random.Range(0, 10), Random.Range(0, 10)));
+            destinationNode = new Node<Coordinate>();
+            destinationNode.SetCoordinate(new Coordinate(Random.Range(0, 10), Random.Range(0, 10)));
 
-            List<Node<Vector2Int>> path = pathfinder.FindPath(startNode, destinationNode, graphView.graph.nodes);
+            List<Node<Coordinate>> path = pathfinder.FindPath(startNode, destinationNode, graphView.graph.nodes);
             StartCoroutine(Move(path));
         }
 
-        public IEnumerator Move(List<Node<Vector2Int>> path) 
+        public IEnumerator Move(List<Node<Coordinate>> path) 
         {
-            foreach (Node<Vector2Int> node in path)
+            foreach (Node<Coordinate> node in path)
             {
-                transform.position = new Vector3(node.GetCoordinate().x, node.GetCoordinate().y);
+                transform.position = new Vector3(node.GetCoordinate().X, node.GetCoordinate().Y);
                 yield return new WaitForSeconds(1.0f);
             }
         }
