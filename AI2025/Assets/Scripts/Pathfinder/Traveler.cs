@@ -6,9 +6,9 @@ namespace Pathfinder
 {
     public class Traveler : MonoBehaviour
     {
-        public GraphView graphView;
+        [SerializeField] private GraphView graphView;
     
-        private DepthFirstPathfinder<Node<Coordinate>> pathfinder;
+        private DepthFirstPathfinder<Node<Coordinate>, Coordinate> pathfinder;
         //private BreadthFirstPathfinder<Node<Vector2Int>> Pathfinder;
         //private DijstraPathfinder<Node<Vector2Int>> Pathfinder;
         //private AStarPathfinder<Node<Vector2Int>> Pathfinder;
@@ -18,7 +18,7 @@ namespace Pathfinder
 
         private void Start()
         {
-            pathfinder = new DepthFirstPathfinder<Node<Coordinate>>();
+            pathfinder = new DepthFirstPathfinder<Node<Coordinate>, Coordinate>();
         
             startNode = new Node<Coordinate>();
             startNode.SetCoordinate(new Coordinate(Random.Range(0, 10), Random.Range(0, 10)));
@@ -26,7 +26,7 @@ namespace Pathfinder
             destinationNode = new Node<Coordinate>();
             destinationNode.SetCoordinate(new Coordinate(Random.Range(0, 10), Random.Range(0, 10)));
 
-            List<Node<Coordinate>> path = pathfinder.FindPath(startNode, destinationNode, graphView.graph.nodes);
+            List<Node<Coordinate>> path = pathfinder.FindPath(startNode, destinationNode, graphView.graph);
             StartCoroutine(Move(path));
         }
 

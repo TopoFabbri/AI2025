@@ -2,19 +2,16 @@
 
 namespace Pathfinder
 {
-    public class DijkstraPathfinder<TNodeType> : Pathfinder<TNodeType> where TNodeType : INode
+    public class DijkstraPathfinder<TNodeType, TCoordinate> : Pathfinder<TNodeType, TCoordinate> 
+        where TCoordinate : ICoordinate 
+        where TNodeType : INode<TCoordinate>, INode
     {
         protected override int Distance(TNodeType a, TNodeType b)
         {
             throw new System.NotImplementedException();
         }
 
-        protected override ICollection<TNodeType> GetNeighbors(TNodeType node)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override bool IsBloqued(TNodeType node)
+        protected override bool IsBlocked(TNodeType node)
         {
             throw new System.NotImplementedException();
         }

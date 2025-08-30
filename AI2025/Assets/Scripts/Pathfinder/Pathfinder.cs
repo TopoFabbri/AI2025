@@ -2,13 +2,15 @@ using System.Collections.Generic;
 
 namespace Pathfinder
 {
-    public abstract class Pathfinder<TNodeType> where TNodeType : INode
+    public abstract class Pathfinder<TNodeType, TCoordinate> 
+        where TNodeType : INode<TCoordinate>, INode
+        where TCoordinate : ICoordinate 
     {
-        public List<TNodeType> FindPath(TNodeType startNode, TNodeType destinationNode, ICollection<TNodeType> graph)
+        public List<TNodeType> FindPath(TNodeType startNode, TNodeType destinationNode, IGraph<TNodeType, TCoordinate> graph)
         {
             Dictionary<TNodeType, (TNodeType Parent, int AcumulativeCost, int Heuristic)> nodes = new();
 
-            foreach (TNodeType node in graph)
+            foreach (TNodeType node in graph.GetNodes())
             {
                 nodes.Add(node, (default, 0, 0));
             }
@@ -41,10 +43,10 @@ namespace Pathfinder
                     return GeneratePath(startNode, destinationNode);
                 }
 
-                foreach (TNodeType neighbor in GetNeighbors(currentNode))
+                foreach (TNodeType neighbor in graph.GetAdjacents(currentNode))
                 {
                     if (!nodes.ContainsKey(neighbor) ||
-                        IsBloqued(neighbor) ||
+                        IsBlocked(neighbor) ||
                         closedList.Contains(neighbor))
                     {
                         continue;
@@ -83,15 +85,13 @@ namespace Pathfinder
                 return path;
             }
         }
-
-        protected abstract ICollection<TNodeType> GetNeighbors(TNodeType node);
-
+        
         protected abstract int Distance(TNodeType a, TNodeType b);
 
         protected abstract bool NodesEquals(TNodeType a, TNodeType b);
 
         protected abstract int MoveToNeighborCost(TNodeType a, TNodeType b);
 
-        protected abstract bool IsBloqued(TNodeType node);
+        protected abstract bool IsBlocked(TNodeType node);
     }
 }

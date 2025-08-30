@@ -1,4 +1,6 @@
-﻿namespace Pathfinder
+﻿using System;
+
+namespace Pathfinder
 {
     public class Node<TCoordinate> : INode, INode<TCoordinate> where TCoordinate : ICoordinate
     {
@@ -17,6 +19,24 @@
         public bool IsBlocked()
         {
             return false;
+        }
+        
+        public bool Equals(INode<TCoordinate> other)
+        {
+            return other != null && coordinate.Equals(other.GetCoordinate());
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is null) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((Node<TCoordinate>)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(coordinate.GetHashCode());
         }
     }
 }
