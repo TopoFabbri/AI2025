@@ -1,15 +1,22 @@
 ﻿using System;
+using Pathfinder.Coordinate;
 
-namespace Pathfinder
+namespace Pathfinder.Node
 {
     public class Node<TCoordinate> : INode, INode<TCoordinate> where TCoordinate : ICoordinate
     {
         private TCoordinate coordinate;
         private bool blocked;
+        protected int cost;
 
         public void SetCoordinate(TCoordinate coordinate)
         {
             this.coordinate = coordinate;
+        }
+
+        public void SetCost(int cost)
+        {
+            this.cost = cost;
         }
 
         public TCoordinate GetCoordinate()
@@ -20,6 +27,11 @@ namespace Pathfinder
         public bool IsBlocked()
         {
             return blocked;
+        }
+
+        public int GetCost()
+        {
+            return cost;
         }
 
         public void SetBlocked(bool blocked)
@@ -42,7 +54,7 @@ namespace Pathfinder
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(coordinate.GetHashCode(), blocked);
+            return HashCode.Combine(coordinate.GetHashCode());
         }
     }
 }

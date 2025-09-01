@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using Pathfinder.Coordinate;
+using Pathfinder.Graph;
+using Pathfinder.Node;
 
-namespace Pathfinder
+namespace Pathfinder.Algorithms
 {
     public abstract class Pathfinder<TNodeType, TCoordinate> 
         where TNodeType : INode<TCoordinate>, INode
@@ -86,13 +89,22 @@ namespace Pathfinder
             }
         }
         
-        protected abstract int Distance(TNodeType a, TNodeType b);
+        protected virtual int Distance(TNodeType a, TNodeType b)
+        {
+            return a.GetCoordinate().GetDistanceTo(b.GetCoordinate());
+        }
 
-        protected abstract bool NodesEquals(TNodeType a, TNodeType b);
+        protected virtual bool NodesEquals(TNodeType a, TNodeType b)
+        {
+            return a.Equals(b);
+        }
         
         protected abstract int MoveToNeighborCost(TNodeType a, TNodeType b);
 
-        protected abstract bool IsBlocked(TNodeType node);
+        protected virtual bool IsBlocked(TNodeType node)
+        {
+            return node.IsBlocked();
+        }
         
         protected abstract ICollection<TNodeType> GetAdjacents(TNodeType node, IGraph<TNodeType, TCoordinate> graph);
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Pathfinder
+namespace Pathfinder.Coordinate
 {
     [Serializable]
     public class Coordinate : ICoordinate

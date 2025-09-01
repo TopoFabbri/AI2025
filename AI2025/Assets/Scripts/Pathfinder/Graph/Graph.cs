@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using Pathfinder.Coordinate;
+using Pathfinder.Node;
 
-namespace Pathfinder
+namespace Pathfinder.Graph
 {
     public class Graph<TNode, TCoordinate> : IGraph<TNode, TCoordinate> 
         where TNode : INode<TCoordinate>, INode, new() 
-        where TCoordinate : Coordinate, new()
+        where TCoordinate : Coordinate.Coordinate, new()
     {
         public Dictionary<TCoordinate, TNode> Nodes { get; } = new();
 

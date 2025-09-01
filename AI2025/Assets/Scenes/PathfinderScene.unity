@@ -180,8 +180,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 5.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -365,7 +365,7 @@ MonoBehaviour:
   startMaterial: {fileID: 2100000, guid: caa1559447e470e458f207cc5247ddec, type: 2}
   destinationMaterial: {fileID: 2100000, guid: 7f70ecbbc22d05f428adacced5f7c555, type: 2}
   blockedMaterial: {fileID: 2100000, guid: f7040c53a256e1a44a50972446b0d561, type: 2}
-  cellDrawSize: {x: 1, y: 1, z: 0.1}
+  cellDrawSize: {x: 0.95, y: 0.95, z: 0.1}
   blockedNodeCoordinates:
   - {x: 1, y: 1}
   - {x: 2, y: 1}
@@ -466,7 +466,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a59cd2901a7e56e43a2a14a9f198c1d0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -495,7 +495,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1022336793}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1022336798
 Transform:
   m_ObjectHideFlags: 0
@@ -506,8 +506,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.6030037, y: 3.6361701, z: 0.04996268}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

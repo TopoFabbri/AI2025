@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 using Pathfinder;
+using Pathfinder.Coordinate;
 
 [CustomPropertyDrawer(typeof(Coordinate))]
 public class CoordinateDrawer : PropertyDrawer

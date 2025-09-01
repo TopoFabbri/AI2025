@@ -46,6 +46,17 @@
                     "action": "ResetPath",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a5a26c0f-fa7d-4c97-8193-bcb21d91f914",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "ResetPath",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

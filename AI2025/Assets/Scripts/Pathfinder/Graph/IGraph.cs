@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Pathfinder.Coordinate;
+using Pathfinder.Node;
 
-namespace Pathfinder
+namespace Pathfinder.Graph
 {
     public interface IGraph<TNode, TCoordinate> where TNode : INode<TCoordinate>, 
         INode where TCoordinate : ICoordinate

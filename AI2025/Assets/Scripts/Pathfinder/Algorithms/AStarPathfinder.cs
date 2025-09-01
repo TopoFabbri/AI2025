@@ -1,29 +1,18 @@
 ﻿using System.Collections.Generic;
+using Pathfinder.Coordinate;
+using Pathfinder.Graph;
+using Pathfinder.Node;
 
-namespace Pathfinder
+namespace Pathfinder.Algorithms
 {
     public class AStarPathfinder<TNodeType, TCoordinate> : Pathfinder<TNodeType, TCoordinate> 
         where TCoordinate : ICoordinate 
         where TNodeType : INode<TCoordinate>, INode
     {
-        protected override int Distance(TNodeType a, TNodeType b)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        protected override bool IsBlocked(TNodeType node)
-        {
-            throw new System.NotImplementedException();
-        }
 
         protected override int MoveToNeighborCost(TNodeType a, TNodeType b)
         {
-            throw new System.NotImplementedException();
-        }
-
-        protected override bool NodesEquals(TNodeType a, TNodeType b)
-        {
-            throw new System.NotImplementedException();
+            return b.GetCost();
         }
 
         protected override ICollection<TNodeType> GetAdjacents(TNodeType node, IGraph<TNodeType, TCoordinate> graph)
