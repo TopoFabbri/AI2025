@@ -360,7 +360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9505ac3f90de150418590939da61c3e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  tile: {fileID: 767179963830130742, guid: 335d16f90efff72479ebecb9bfb6bcd1, type: 3}
   defaultMaterial: {fileID: 2100000, guid: 4d10f29c3d88550419f0a07d2ff8232d, type: 2}
   startMaterial: {fileID: 2100000, guid: caa1559447e470e458f207cc5247ddec, type: 2}
   destinationMaterial: {fileID: 2100000, guid: 7f70ecbbc22d05f428adacced5f7c555, type: 2}
@@ -395,6 +395,7 @@ MonoBehaviour:
   - {x: 8, y: 6}
   - {x: 8, y: 7}
   size: {x: 10, y: 10}
+  costRange: 100
 --- !u!4 &815766765
 Transform:
   m_ObjectHideFlags: 0

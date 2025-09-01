@@ -6,7 +6,7 @@ namespace Pathfinder.Graph
 {
     public class GraphView : MonoBehaviour
     {
-        [Header("Debug")] [SerializeField] private Mesh tileMesh;
+        [Header("Drawing")] [SerializeField] private CellView tile;
         [SerializeField] private Material defaultMaterial;
         [SerializeField] private Material startMaterial;
         [SerializeField] private Material destinationMaterial;
@@ -15,16 +15,14 @@ namespace Pathfinder.Graph
 
         [Header("Settings")] [SerializeField] private List<Vector2Int> blockedNodeCoordinates = new();
         [SerializeField] private Vector2Int size = new(10, 10);
-
+        [SerializeField] private int costRange = 100;
+        
         public Graph<Node<Coordinate.Coordinate>, Coordinate.Coordinate> Graph { get; private set; }
 
         private Node<Coordinate.Coordinate> startNode;
         private Node<Coordinate.Coordinate> targetNode;
-
-        private readonly List<Matrix4x4> defaultMatrices = new();
-        private readonly List<Matrix4x4> startMatrices = new();
-        private readonly List<Matrix4x4> destinationMatrices = new();
-        private readonly List<Matrix4x4> blockedMatrices = new();
+        
+        private readonly Dictionary<Coordinate.Coordinate, CellView> cellViews = new();
 
         private void Start()
         {
@@ -32,9 +30,12 @@ namespace Pathfinder.Graph
 
             foreach (KeyValuePair<Coordinate.Coordinate, Node<Coordinate.Coordinate>> node in Graph.Nodes)
             {
-                int cost = Random.Range(0, 100);
+                int cost = Random.Range(0, costRange);
                     
                 node.Value.SetCost(cost);
+                CellView cellInstance = Instantiate(tile, new Vector3(node.Key.X, node.Key.Y, 0), Quaternion.identity);
+                cellInstance.transform.SetParent(transform);
+                cellViews.Add(node.Key, cellInstance);
             }
 
             List<Coordinate.Coordinate> blockedCoordinates = new();
@@ -47,31 +48,17 @@ namespace Pathfinder.Graph
 
         private void LateUpdate()
         {
-            defaultMatrices.Clear();
-            startMatrices.Clear();
-            destinationMatrices.Clear();
-            blockedMatrices.Clear();
-
-            foreach (Node<Coordinate.Coordinate> node in Graph.Nodes.Values)
+            foreach (KeyValuePair<Coordinate.Coordinate, Node<Coordinate.Coordinate>> node in Graph.Nodes)
             {
-                Vector3 pos = new(node.GetCoordinate().X, node.GetCoordinate().Y, 0);
-                Matrix4x4 mat4 = new();
-                mat4.SetTRS(pos, Quaternion.identity, cellDrawSize);
-
-                if (node.Equals(startNode))
-                    startMatrices.Add(mat4);
-                else if (node.Equals(targetNode))
-                    destinationMatrices.Add(mat4);
-                else if (node.IsBlocked())
-                    blockedMatrices.Add(mat4);
+                if (node.Value.Equals(startNode))
+                    cellViews[node.Key].SetValues(startMaterial, cellDrawSize);
+                else if (node.Value.Equals(targetNode))
+                    cellViews[node.Key].SetValues(destinationMaterial, cellDrawSize);
+                else if (node.Value.IsBlocked())
+                    cellViews[node.Key].SetValues(blockedMaterial, cellDrawSize);
                 else
-                    defaultMatrices.Add(mat4);
+                    cellViews[node.Key].SetValues(defaultMaterial, cellDrawSize, node.Value.GetCost());
             }
-
-            Graphics.DrawMeshInstanced(tileMesh, 0, defaultMaterial, defaultMatrices);
-            Graphics.DrawMeshInstanced(tileMesh, 0, startMaterial, startMatrices);
-            Graphics.DrawMeshInstanced(tileMesh, 0, destinationMaterial, destinationMatrices);
-            Graphics.DrawMeshInstanced(tileMesh, 0, blockedMaterial, blockedMatrices);
         }
 
         public void SetStartNode(Node<Coordinate.Coordinate> node)
