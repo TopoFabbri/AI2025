@@ -80,7 +80,7 @@ public class CoordinateDrawer : PropertyDrawer
 
         if (showMiniLabels)
         {
-            var miniLabelStyle = EditorStyles.miniLabel;
+            GUIStyle miniLabelStyle = EditorStyles.miniLabel;
             Rect xLabel = new Rect(xRect.x, xRect.y, xRect.width, miniLabelStyle.lineHeight);
             Rect yLabel = new Rect(yRect.x, yRect.y, yRect.width, miniLabelStyle.lineHeight);
             EditorGUI.LabelField(xLabel, "X", miniLabelStyle);

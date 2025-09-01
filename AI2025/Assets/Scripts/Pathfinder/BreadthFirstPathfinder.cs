@@ -25,5 +25,10 @@ namespace Pathfinder
         {
             throw new System.NotImplementedException();
         }
+
+        protected override ICollection<TNodeType> GetAdjacents(TNodeType node, IGraph<TNodeType, TCoordinate> graph)
+        {
+            return graph.GetAdjacents(node);
+        }
     }
 }

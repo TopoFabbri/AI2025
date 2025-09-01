@@ -43,7 +43,7 @@ namespace Pathfinder
                     return GeneratePath(startNode, destinationNode);
                 }
 
-                foreach (TNodeType neighbor in graph.GetAdjacents(currentNode))
+                foreach (TNodeType neighbor in GetAdjacents(currentNode, graph))
                 {
                     if (!nodes.ContainsKey(neighbor) ||
                         IsBlocked(neighbor) ||
@@ -89,9 +89,11 @@ namespace Pathfinder
         protected abstract int Distance(TNodeType a, TNodeType b);
 
         protected abstract bool NodesEquals(TNodeType a, TNodeType b);
-
+        
         protected abstract int MoveToNeighborCost(TNodeType a, TNodeType b);
 
         protected abstract bool IsBlocked(TNodeType node);
+        
+        protected abstract ICollection<TNodeType> GetAdjacents(TNodeType node, IGraph<TNodeType, TCoordinate> graph);
     }
 }

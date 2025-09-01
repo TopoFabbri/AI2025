@@ -39,10 +39,10 @@ namespace Pathfinder
         {
             List<ICoordinate> neighbours = new();
             
-            neighbours.Add(new Coordinate(X - 1, Y));
             neighbours.Add(new Coordinate(X + 1, Y));
-            neighbours.Add(new Coordinate(X, Y - 1));
             neighbours.Add(new Coordinate(X, Y + 1));
+            neighbours.Add(new Coordinate(X - 1, Y));
+            neighbours.Add(new Coordinate(X, Y - 1));
             
             return neighbours;
         }

@@ -21,11 +21,17 @@ namespace Pathfinder
             pathfinder = new DepthFirstPathfinder<Node<Coordinate>, Coordinate>();
 
             startNode = new Node<Coordinate>();
-            startNode.SetCoordinate(new Coordinate(Random.Range(0, 10), Random.Range(0, 10)));
+            
+            int counter = 0;
+            
+            do
+            {
+                startNode.SetCoordinate(new Coordinate(Random.Range(0, 10), Random.Range(0, 10)));
+            } while (graphView.Graph.Nodes[startNode.GetCoordinate()].IsBlocked() && counter++ < 100);
 
             destinationNode = new Node<Coordinate>();
             
-            int counter = 0;
+            counter = 0;
             
             do
             {

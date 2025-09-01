@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Pathfinder
 {
@@ -24,6 +25,11 @@ namespace Pathfinder
         protected override bool NodesEquals(TNodeType a, TNodeType b)
         {
             return a.Equals(b);
+        }
+
+        protected override ICollection<TNodeType> GetAdjacents(TNodeType node, IGraph<TNodeType, TCoordinate> graph)
+        {
+            return graph.GetAdjacents(node);
         }
     }
 }
