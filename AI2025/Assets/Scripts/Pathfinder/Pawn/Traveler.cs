@@ -85,6 +85,8 @@ namespace Pathfinder.Pawn
                 }
 
                 currentNode = node;
+                
+                currentNode.SetCost(Random.Range(0, 100));
             }
 
             moveEnded = true;
