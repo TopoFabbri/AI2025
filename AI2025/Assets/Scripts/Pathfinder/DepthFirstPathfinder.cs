@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace Pathfinder
 {
@@ -13,17 +13,17 @@ namespace Pathfinder
 
         protected override bool IsBlocked(TNodeType node)
         {
-            throw new System.NotImplementedException();
+            return node.IsBlocked();
         }
 
         protected override int MoveToNeighborCost(TNodeType a, TNodeType b)
         {
-            throw new System.NotImplementedException();
+            return 0;
         }
 
         protected override bool NodesEquals(TNodeType a, TNodeType b)
         {
-            throw new System.NotImplementedException();
+            return a.Equals(b);
         }
     }
 }

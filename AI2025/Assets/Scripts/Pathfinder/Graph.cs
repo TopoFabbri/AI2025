@@ -2,13 +2,13 @@
 
 namespace Pathfinder
 {
-    public class Vector2IntGraph<TNode, TCoordinate> : IGraph<TNode, TCoordinate> 
+    public class Graph<TNode, TCoordinate> : IGraph<TNode, TCoordinate> 
         where TNode : INode<TCoordinate>, INode, new() 
         where TCoordinate : Coordinate, new()
     {
         public Dictionary<TCoordinate, TNode> Nodes { get; } = new();
 
-        public Vector2IntGraph(int x, int y)
+        public Graph(int x, int y)
         {
             for (int i = 0; i < x; i++)
             {
@@ -42,6 +42,12 @@ namespace Pathfinder
         public ICollection<TNode> GetNodes()
         {
             return Nodes.Values;
+        }
+
+        public void BlockNodes(List<TCoordinate> coordinates)
+        {
+            foreach (TCoordinate coordinate in coordinates)
+                Nodes[coordinate].SetBlocked(true);
         }
     }
 }

@@ -5,6 +5,7 @@ namespace Pathfinder
     public class Node<TCoordinate> : INode, INode<TCoordinate> where TCoordinate : ICoordinate
     {
         private TCoordinate coordinate;
+        private bool blocked;
 
         public void SetCoordinate(TCoordinate coordinate)
         {
@@ -18,9 +19,14 @@ namespace Pathfinder
 
         public bool IsBlocked()
         {
-            return false;
+            return blocked;
         }
-        
+
+        public void SetBlocked(bool blocked)
+        {
+            this.blocked = blocked;
+        }
+
         public bool Equals(INode<TCoordinate> other)
         {
             return other != null && coordinate.Equals(other.GetCoordinate());
@@ -36,7 +42,7 @@ namespace Pathfinder
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(coordinate.GetHashCode());
+            return HashCode.Combine(coordinate.GetHashCode(), blocked);
         }
     }
 }

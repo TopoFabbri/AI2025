@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Pathfinder
 {
+    [Serializable]
     public class Coordinate : ICoordinate
     {
-        public int X { get; private set; }
-        public int Y { get; private set; }
+        [field: SerializeField] public int X { get; private set; }
+        [field: SerializeField] public int Y { get; private set; }
 
         public Coordinate()
         {

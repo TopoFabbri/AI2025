@@ -7,5 +7,6 @@ namespace Pathfinder
     {
         public ICollection<TNode> GetNodes();
         public ICollection<TNode> GetAdjacents(TNode node);
+        public void BlockNodes(List<TCoordinate> nodes);
     }
 }

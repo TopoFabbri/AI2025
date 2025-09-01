@@ -52,13 +52,13 @@ namespace Pathfinder
                         continue;
                     }
 
-                    int tentativeNewAcumulatedCost = 0;
-                    tentativeNewAcumulatedCost += nodes[currentNode].AcumulativeCost;
-                    tentativeNewAcumulatedCost += MoveToNeighborCost(currentNode, neighbor);
+                    int tentativeNewAccumulatedCost = 0;
+                    tentativeNewAccumulatedCost += nodes[currentNode].AcumulativeCost;
+                    tentativeNewAccumulatedCost += MoveToNeighborCost(currentNode, neighbor);
 
-                    if (!openList.Contains(neighbor) || tentativeNewAcumulatedCost < nodes[currentNode].AcumulativeCost)
+                    if (!openList.Contains(neighbor) || tentativeNewAccumulatedCost < nodes[currentNode].AcumulativeCost)
                     {
-                        nodes[neighbor] = (currentNode, tentativeNewAcumulatedCost, Distance(neighbor, destinationNode));
+                        nodes[neighbor] = (currentNode, tentativeNewAccumulatedCost, Distance(neighbor, destinationNode));
 
                         if (!openList.Contains(neighbor))
                         {
