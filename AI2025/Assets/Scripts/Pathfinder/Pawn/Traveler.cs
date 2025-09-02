@@ -11,6 +11,8 @@ namespace Pathfinder.Pawn
 {
     public class Traveler : MonoBehaviour
     {
+        private static int travelerCount = 0;
+        
         [Header("References")] [SerializeField]
         private GraphView graphView;
 
@@ -25,6 +27,7 @@ namespace Pathfinder.Pawn
         private Node<Coordinate.Coordinate> destinationNode;
         private Node<Coordinate.Coordinate> currentNode;
 
+        private int travelerId;
         private bool moveEnded;
 
         private void OnEnable()
@@ -39,6 +42,9 @@ namespace Pathfinder.Pawn
 
         private void Start()
         {
+            travelerId = travelerCount;
+            travelerCount++;
+            
             pathfinder = new AStarPathfinder<Node<Coordinate.Coordinate>, Coordinate.Coordinate>();
 
             startNode = new Node<Coordinate.Coordinate>();
@@ -48,13 +54,13 @@ namespace Pathfinder.Pawn
 
             do
             {
-                startNode.SetCoordinate(new Coordinate.Coordinate(Random.Range(0, 10), Random.Range(0, 10)));
+                startNode.SetCoordinate(new Coordinate.Coordinate(Random.Range(0, 50), Random.Range(0, 50)));
             } while (graphView.Graph.Nodes[startNode.GetCoordinate()].IsBlocked() && counter++ < 100);
 
             FindDestination();
 
-            graphView.SetStartNode(startNode);
-            graphView.SetTargetNode(destinationNode);
+            graphView.SetStartNode(travelerId, startNode);
+            graphView.SetTargetNode(travelerId, destinationNode);
 
             List<Node<Coordinate.Coordinate>> path = pathfinder.FindPath(startNode, destinationNode, graphView.Graph);
             StartCoroutine(Move(path));
@@ -86,7 +92,7 @@ namespace Pathfinder.Pawn
 
                 currentNode = node;
                 
-                currentNode.SetCost(Random.Range(0, 100));
+                currentNode.SetCost(currentNode.GetCost() + 1  > 99 ? 0 : currentNode.GetCost() + 1);
             }
 
             moveEnded = true;
@@ -97,8 +103,8 @@ namespace Pathfinder.Pawn
             startNode = currentNode;
             FindDestination();
 
-            graphView.SetStartNode(startNode);
-            graphView.SetTargetNode(destinationNode);
+            graphView.SetStartNode(travelerId, startNode);
+            graphView.SetTargetNode(travelerId, destinationNode);
 
             moveEnded = false;
 
@@ -114,7 +120,7 @@ namespace Pathfinder.Pawn
 
             do
             {
-                destinationNode.SetCoordinate(new Coordinate.Coordinate(Random.Range(0, 10), Random.Range(0, 10)));
+                destinationNode.SetCoordinate(new Coordinate.Coordinate(Random.Range(0, 50), Random.Range(0, 50)));
             } while (graphView.Graph.Nodes[destinationNode.GetCoordinate()].IsBlocked() && counter++ < 100);
         }
     }
