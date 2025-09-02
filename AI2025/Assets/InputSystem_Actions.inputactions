@@ -22,6 +22,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleNumbers",
+                    "type": "Button",
+                    "id": "4f5c58f6-0268-4c78-b702-08bc73061a6e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleTimer",
+                    "type": "Button",
+                    "id": "b4c8014e-486b-4cb5-83fa-7685120ac57e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -38,8 +56,8 @@
                 },
                 {
                     "name": "",
-                    "id": "48e5d9f3-1875-4e3f-b636-83cc9fb878b1",
-                    "path": "<Keyboard>/tab",
+                    "id": "a5a26c0f-fa7d-4c97-8193-bcb21d91f914",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -49,12 +67,23 @@
                 },
                 {
                     "name": "",
-                    "id": "a5a26c0f-fa7d-4c97-8193-bcb21d91f914",
-                    "path": "<Keyboard>/space",
+                    "id": "57dece17-396b-4676-82db-cb556fece222",
+                    "path": "<Keyboard>/t",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "ResetPath",
+                    "action": "ToggleNumbers",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a3d611d9-25c1-4291-b1d0-a1b530f6a820",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleTimer",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

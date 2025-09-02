@@ -1,3 +1,5 @@
+using System;
+using Input;
 using TMPro;
 using UnityEngine;
 
@@ -35,6 +37,21 @@ namespace Pathfinder.Graph
             this.colour = colour;
 
             scale = drawSize;
+        }
+
+        private void OnToggleNumbers()
+        {
+            drawNumbers = !drawNumbers;
+        }
+
+        private void OnEnable()
+        {
+            InputListener.ToggleNumbers += OnToggleNumbers;
+        }
+
+        private void OnDisable()
+        {
+            InputListener.ToggleNumbers -= OnToggleNumbers;
         }
 
         private void LateUpdate()

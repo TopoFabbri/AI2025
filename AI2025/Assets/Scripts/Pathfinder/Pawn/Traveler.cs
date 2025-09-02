@@ -92,7 +92,10 @@ namespace Pathfinder.Pawn
 
                 currentNode = node;
                 
-                currentNode.SetCost(currentNode.GetCost() + 1  > 99 ? 0 : currentNode.GetCost() + 1);
+                if (currentNode.GetCost() + 2  > 99)
+                    currentNode.SetBlocked(true);
+                else
+                    currentNode.SetCost(currentNode.GetCost() + 2);
             }
 
             moveEnded = true;
