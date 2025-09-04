@@ -8,7 +8,10 @@ namespace Pathfinder.Graph
         INode where TCoordinate : ICoordinate
     {
         public ICollection<TNode> GetNodes();
+        public TCoordinate GetSize();
         public ICollection<TNode> GetAdjacents(TNode node);
-        public void BlockNodes(List<TCoordinate> nodes);
+        public void BlockNodes(ICollection<TCoordinate> nodes);
+        public void BlockNodes(ICollection<TNode> nodes);
+        public ICollection<TNode> GetBresenhamNodes(TCoordinate start, TCoordinate end);
     }
 }

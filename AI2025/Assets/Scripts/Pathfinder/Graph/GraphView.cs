@@ -16,7 +16,6 @@ namespace Pathfinder.Graph
 
         [Header("Settings")] [SerializeField] private List<Vector2Int> blockedNodeCoordinates = new();
         [SerializeField] private Vector2Int size = new(10, 10);
-        [SerializeField] private int costRange = 100;
         
         public Graph<Node<Coordinate.Coordinate>, Coordinate.Coordinate> Graph { get; private set; }
 
@@ -43,11 +42,11 @@ namespace Pathfinder.Graph
             }
 
             List<Coordinate.Coordinate> blockedCoordinates = new();
-
+            
             foreach (Vector2Int blockedNodeCoordinate in blockedNodeCoordinates)
                 blockedCoordinates.Add(new Coordinate.Coordinate(blockedNodeCoordinate.x, blockedNodeCoordinate.y));
 
-            Graph.BlockNodes(blockedCoordinates);
+            Graph.BlockNodes(Graph.GetBresenhamNodes(blockedCoordinates[0], blockedCoordinates[1]));
         }
 
         private void LateUpdate()

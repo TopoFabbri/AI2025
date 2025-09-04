@@ -11,7 +11,7 @@ namespace Pathfinder.Pawn
 {
     public class Traveler : MonoBehaviour
     {
-        private static int travelerCount = 0;
+        private static int _travelerCount;
         
         [Header("References")] [SerializeField]
         private GraphView graphView;
@@ -42,8 +42,8 @@ namespace Pathfinder.Pawn
 
         private void Start()
         {
-            travelerId = travelerCount;
-            travelerCount++;
+            travelerId = _travelerCount;
+            _travelerCount++;
             
             pathfinder = new AStarPathfinder<Node<Coordinate.Coordinate>, Coordinate.Coordinate>();
 
@@ -54,7 +54,7 @@ namespace Pathfinder.Pawn
 
             do
             {
-                startNode.SetCoordinate(new Coordinate.Coordinate(Random.Range(0, 50), Random.Range(0, 50)));
+                startNode.SetCoordinate(new Coordinate.Coordinate(Random.Range(0, graphView.Graph.GetSize().X), Random.Range(0, graphView.Graph.GetSize().Y)));
             } while (graphView.Graph.Nodes[startNode.GetCoordinate()].IsBlocked() && counter++ < 100);
 
             FindDestination();
@@ -72,7 +72,7 @@ namespace Pathfinder.Pawn
                 ResetPath();
         }
 
-        public IEnumerator Move(List<Node<Coordinate.Coordinate>> path)
+        private IEnumerator Move(List<Node<Coordinate.Coordinate>> path)
         {
             transform.position = new Vector3(startNode.GetCoordinate().X, startNode.GetCoordinate().Y);
 
@@ -123,7 +123,7 @@ namespace Pathfinder.Pawn
 
             do
             {
-                destinationNode.SetCoordinate(new Coordinate.Coordinate(Random.Range(0, 50), Random.Range(0, 50)));
+                destinationNode.SetCoordinate(new Coordinate.Coordinate(Random.Range(0, graphView.Graph.GetSize().X), Random.Range(0, graphView.Graph.GetSize().Y)));
             } while (graphView.Graph.Nodes[destinationNode.GetCoordinate()].IsBlocked() && counter++ < 100);
         }
     }
