@@ -4,7 +4,7 @@ using ECS.Patron;
 
 namespace ECS.Implementation
 {
-    public sealed class MovementSystem : ECSSystem
+    public sealed class MovementSystem : EcsSystem
     {
         private ParallelOptions parallelOptions;
 

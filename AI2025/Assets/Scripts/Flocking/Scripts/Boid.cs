@@ -1,46 +1,45 @@
 using System;
 using UnityEngine;
 
-public class Boid : MonoBehaviour
+namespace Flocking.Scripts
 {
-	public float speed = 2.5f;
-	public float turnSpeed = 5f;
-	public float detectionRadious = 3.0f;
+    public class Boid : MonoBehaviour
+    {
+        [SerializeField] private float speed = 2.5f;
+        [SerializeField] private float turnSpeed = 5f;
+        [SerializeField] private float detectionRadius = 3.0f;
 
-	public float alignmentFactor;
-	public float cohesionFactor;
-	public float separationFactor;
-	public float directionFactor;
+        [SerializeField] private float alignmentFactor;
+        [SerializeField] private float cohesionFactor;
+        [SerializeField] private float separationFactor;
+        [SerializeField] private float directionFactor;
 
-	private Func<Boid, Vector2> Alignment;
-	private Func<Boid, Vector2> Cohesion;
-	private Func<Boid, Vector2> Separation;
-	private Func<Boid, Vector2> Direction;
+        private Func<Boid, Vector2> alignment;
+        private Func<Boid, Vector2> cohesion;
+        private Func<Boid, Vector2> separation;
+        private Func<Boid, Vector2> direction;
 
-	public void Init(Func<Boid, Vector2> Alignment,
-					 Func<Boid, Vector2> Cohesion,
-					 Func<Boid, Vector2> Separation,
-					 Func<Boid, Vector2> Direction)
-	{
-		this.Alignment = Alignment;
-		this.Cohesion = Cohesion;
-		this.Separation = Separation;
-		this.Direction = Direction;
-	}
+        public float DetectionRadius => detectionRadius;
 
-	private void Update()
-	{
-		transform.position += transform.up * speed * Time.deltaTime;
-		transform.up = Vector3.Lerp(transform.up, ACS(), turnSpeed * Time.deltaTime);
-	}
+        public void Init(Func<Boid, Vector2> alignment, Func<Boid, Vector2> cohesion, Func<Boid, Vector2> separation, Func<Boid, Vector2> direction)
+        {
+            this.alignment = alignment;
+            this.cohesion = cohesion;
+            this.separation = separation;
+            this.direction = direction;
+        }
 
-	public Vector2 ACS()
-	{
-		Vector2 ACS = (Alignment(this) * alignmentFactor) +
-					  (Cohesion(this) * cohesionFactor) +
-					  (Separation(this) * separationFactor) +
-					  (Direction(this) * directionFactor);
+        private void Update()
+        {
+            transform.position += transform.up * (speed * Time.deltaTime);
+            transform.up = Vector3.Lerp(transform.up, Acs(), turnSpeed * Time.deltaTime);
+        }
 
-		return ACS.normalized;
-	}
+        private Vector2 Acs()
+        {
+            Vector2 acs = alignment(this) * alignmentFactor + cohesion(this) * cohesionFactor + separation(this) * separationFactor + direction(this) * directionFactor;
+
+            return acs.normalized;
+        }
+    }
 }

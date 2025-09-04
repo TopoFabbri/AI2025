@@ -11,23 +11,23 @@ namespace ECS.Patron
 
         private static ConcurrentDictionary<uint, EcsEntity> _entities;
         private static ConcurrentDictionary<Type, ConcurrentDictionary<uint, EcsComponent>> _components;
-        private static ConcurrentDictionary<Type, ECSSystem> _systems;
+        private static ConcurrentDictionary<Type, EcsSystem> _systems;
 
         public static void Init()
         {
             _entities = new ConcurrentDictionary<uint, EcsEntity>();
             _components = new ConcurrentDictionary<Type, ConcurrentDictionary<uint, EcsComponent>>();
-            _systems = new ConcurrentDictionary<Type, ECSSystem>();
+            _systems = new ConcurrentDictionary<Type, EcsSystem>();
 
-            foreach (Type classType in typeof(ECSSystem).Assembly.GetTypes())
+            foreach (Type classType in typeof(EcsSystem).Assembly.GetTypes())
             {
-                if (typeof(ECSSystem).IsAssignableFrom(classType) && !classType.IsAbstract)
+                if (typeof(EcsSystem).IsAssignableFrom(classType) && !classType.IsAbstract)
                 {
-                    _systems.TryAdd(classType, Activator.CreateInstance(classType) as ECSSystem);
+                    _systems.TryAdd(classType, Activator.CreateInstance(classType) as EcsSystem);
                 }
             }
 
-            foreach (KeyValuePair<Type, ECSSystem> system in _systems)
+            foreach (KeyValuePair<Type, EcsSystem> system in _systems)
             {
                 system.Value.Initialize();
             }
