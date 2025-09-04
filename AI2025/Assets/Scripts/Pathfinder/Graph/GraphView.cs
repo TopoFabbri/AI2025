@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Pathfinder.Node;
+using Pathfinder.Pawn;
 using UnityEngine;
 
 namespace Pathfinder.Graph
@@ -19,7 +20,7 @@ namespace Pathfinder.Graph
         
         public Graph<Node<Coordinate.Coordinate>, Coordinate.Coordinate> Graph { get; private set; }
 
-        private readonly Dictionary<int, Node<Coordinate.Coordinate>> startNodes = new();
+        private readonly Dictionary<int, List<Node<Coordinate.Coordinate>>> pathNodes = new();
         private readonly Dictionary<int, Node<Coordinate.Coordinate>> targetNodes = new();
         
         private readonly ParallelOptions parallelOptions = new() { MaxDegreeOfParallelism = 32 };
@@ -53,7 +54,7 @@ namespace Pathfinder.Graph
         {
             Parallel.ForEach(Graph.Nodes, parallelOptions, node =>
             {
-                if (startNodes.ContainsValue(node.Value))
+                if (NodeIsPath(node.Value))
                     cellViews[node.Key].SetValues(startColour, cellDrawSize);
                 else if (targetNodes.ContainsValue(node.Value))
                     cellViews[node.Key].SetValues(destinationColour, cellDrawSize);
@@ -62,28 +63,36 @@ namespace Pathfinder.Graph
                 else
                     cellViews[node.Key].SetValues(defaultColour, cellDrawSize, node.Value.GetCost());
             });
-            
-            // foreach (KeyValuePair<Coordinate.Coordinate, Node<Coordinate.Coordinate>> node in Graph.Nodes)
-            // {
-            //     if (startNodes.ContainsValue(node.Value))
-            //         cellViews[node.Key].SetValues(startColour, cellDrawSize);
-            //     else if (targetNodes.ContainsValue(node.Value))
-            //         cellViews[node.Key].SetValues(destinationColour, cellDrawSize);
-            //     else if (node.Value.IsBlocked())
-            //         cellViews[node.Key].SetValues(blockedColour, cellDrawSize);
-            //     else
-            //         cellViews[node.Key].SetValues(defaultColour, cellDrawSize, node.Value.GetCost());
-            // }
         }
         
-        public void SetStartNode(int traveler, Node<Coordinate.Coordinate> node)
+        public void AddPathNodes(int traveler, List<Node<Coordinate.Coordinate>> nodes)
         {
-            startNodes[traveler] = node;
+            if (!pathNodes.ContainsKey(traveler))
+                pathNodes.Add(traveler, new List<Node<Coordinate.Coordinate>>());
+            
+            pathNodes[traveler].AddRange(nodes);
+        }
+
+        public void ClearPathNodes(int traveler)
+        {
+            if (pathNodes.TryGetValue(traveler, out List<Node<Coordinate.Coordinate>> nodes))
+                nodes.Clear();
         }
 
         public void SetTargetNode(int traveler, Node<Coordinate.Coordinate> node)
         {
             targetNodes[traveler] = node;
+        }
+
+        private bool NodeIsPath(Node<Coordinate.Coordinate> node)
+        {
+            foreach (int traveler in pathNodes.Keys)
+            {
+                if (pathNodes[traveler].Contains(node))
+                    return true;
+            }
+            
+            return false;
         }
     }
 }

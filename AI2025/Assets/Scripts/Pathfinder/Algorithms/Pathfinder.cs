@@ -9,7 +9,7 @@ namespace Pathfinder.Algorithms
         where TNodeType : INode<TCoordinate>, INode
         where TCoordinate : ICoordinate 
     {
-        public List<TNodeType> FindPath(TNodeType startNode, TNodeType destinationNode, IGraph<TNodeType, TCoordinate> graph)
+        public virtual List<TNodeType> FindPath(TNodeType startNode, TNodeType destinationNode, IGraph<TNodeType, TCoordinate> graph)
         {
             Dictionary<TNodeType, (TNodeType Parent, int AcumulativeCost, int Heuristic)> nodes = new();
 

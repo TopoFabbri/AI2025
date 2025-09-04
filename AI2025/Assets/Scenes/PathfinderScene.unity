@@ -519,22 +519,8 @@ MonoBehaviour:
   blockedColour: {r: 0, g: 0, b: 0, a: 1}
   cellDrawSize: {x: 0.95, y: 0.95, z: 0.1}
   blockedNodeCoordinates:
-  - {x: 1, y: 2}
-  - {x: 2, y: 2}
-  - {x: 3, y: 2}
-  - {x: 4, y: 2}
-  - {x: 5, y: 2}
-  - {x: 6, y: 2}
-  - {x: 8, y: 2}
-  - {x: 7, y: 2}
-  - {x: 7, y: 3}
-  - {x: 7, y: 5}
-  - {x: 7, y: 6}
-  - {x: 2, y: 4}
-  - {x: 2, y: 5}
-  - {x: 2, y: 6}
-  - {x: 2, y: 7}
-  - {x: 2, y: 8}
+  - {x: 3, y: 3}
+  - {x: 24, y: 24}
   size: {x: 25, y: 25}
 --- !u!4 &815766765
 Transform:
@@ -582,7 +568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graphView: {fileID: 815766764}
-  speed: 20
+  speed: 100
 --- !u!4 &1022336798
 Transform:
   m_ObjectHideFlags: 0

@@ -187,7 +187,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 9015504265866520317}
   costLabel: {fileID: 2836160743747958456}
   drawCosts: 1
-  drawNumbers: 1
+  drawNumbers: 0
 --- !u!212 &9015504265866520317
 SpriteRenderer:
   m_ObjectHideFlags: 0

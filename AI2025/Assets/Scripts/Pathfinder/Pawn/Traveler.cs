@@ -57,13 +57,7 @@ namespace Pathfinder.Pawn
                 startNode.SetCoordinate(new Coordinate.Coordinate(Random.Range(0, graphView.Graph.GetSize().X), Random.Range(0, graphView.Graph.GetSize().Y)));
             } while (graphView.Graph.Nodes[startNode.GetCoordinate()].IsBlocked() && counter++ < 100);
 
-            FindDestination();
-
-            graphView.SetStartNode(travelerId, startNode);
-            graphView.SetTargetNode(travelerId, destinationNode);
-
-            List<Node<Coordinate.Coordinate>> path = pathfinder.FindPath(startNode, destinationNode, graphView.Graph);
-            StartCoroutine(Move(path));
+            ResetPath();
         }
 
         private void Update()
@@ -75,27 +69,19 @@ namespace Pathfinder.Pawn
         private IEnumerator Move(List<Node<Coordinate.Coordinate>> path)
         {
             transform.position = new Vector3(startNode.GetCoordinate().X, startNode.GetCoordinate().Y);
-
+            
             foreach (Node<Coordinate.Coordinate> node in path)
             {
-                float time = 0f;
-                Vector3 lastPos = new(currentNode.GetCoordinate().X, currentNode.GetCoordinate().Y);
                 Vector3 nextPos = new(node.GetCoordinate().X, node.GetCoordinate().Y);
 
-                while (time < 1f)
+                while (transform.position != nextPos)
                 {
-                    time += Time.deltaTime * speed;
-                    transform.position = Vector3.Lerp(lastPos, nextPos, time);
+                    transform.position = Vector3.MoveTowards(transform.position, nextPos, speed * Time.deltaTime);
 
                     yield return null;
                 }
 
                 currentNode = node;
-                
-                if (currentNode.GetCost() + 2  > 99)
-                    currentNode.SetBlocked(true);
-                else
-                    currentNode.SetCost(currentNode.GetCost() + 2);
             }
 
             moveEnded = true;
@@ -106,13 +92,29 @@ namespace Pathfinder.Pawn
             startNode = currentNode;
             FindDestination();
 
-            graphView.SetStartNode(travelerId, startNode);
             graphView.SetTargetNode(travelerId, destinationNode);
 
             moveEnded = false;
 
+            List<Node<Coordinate.Coordinate>> path = pathfinder.FindPath(startNode, destinationNode, graphView.Graph);
+            List<Node<Coordinate.Coordinate>> fullPath = GetFullPath(path);
+            
+            if (fullPath != null && fullPath.Count > 0)
+            {
+                graphView.ClearPathNodes(travelerId);
+                graphView.AddPathNodes(travelerId, fullPath);
+
+                foreach (Node<Coordinate.Coordinate> node in fullPath)
+                {
+                    if (node.GetCost() + 2  > 99)
+                        node.SetCost(0);
+                    else
+                        node.SetCost(node.GetCost() + 2);
+                }
+            }
+
             StopAllCoroutines();
-            StartCoroutine(Move(pathfinder.FindPath(startNode, destinationNode, graphView.Graph)));
+            StartCoroutine(Move(path));
         }
 
         private void FindDestination()
@@ -125,6 +127,23 @@ namespace Pathfinder.Pawn
             {
                 destinationNode.SetCoordinate(new Coordinate.Coordinate(Random.Range(0, graphView.Graph.GetSize().X), Random.Range(0, graphView.Graph.GetSize().Y)));
             } while (graphView.Graph.Nodes[destinationNode.GetCoordinate()].IsBlocked() && counter++ < 100);
+        }
+
+        private List<Node<Coordinate.Coordinate>> GetFullPath(List<Node<Coordinate.Coordinate>> path)
+        {
+            if (path == null) return null;
+            if (path.Count == 0) return path;
+            
+            List<Node<Coordinate.Coordinate>> fullPath = new();
+
+            fullPath.AddRange(graphView.Graph.GetBresenhamNodes(startNode.GetCoordinate(), path[0].GetCoordinate()));
+            
+            for (int i = 0; i < path.Count - 1; i++)
+            {
+                fullPath.AddRange(graphView.Graph.GetBresenhamNodes(path[i].GetCoordinate(), path[i + 1].GetCoordinate()));
+            }
+            
+            return fullPath;
         }
     }
 }
