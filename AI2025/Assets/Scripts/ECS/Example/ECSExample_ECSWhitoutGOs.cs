@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ECS.Implementation;
+using ECS.Patron;
 using UnityEngine;
 
 public class ECSExample_ECSWhitoutGOs : MonoBehaviour
@@ -17,14 +19,14 @@ public class ECSExample_ECSWhitoutGOs : MonoBehaviour
 
     void Start()
     {
-        ECSManager.Init();
+        EcsManager.Init();
         entities = new List<uint>();
         for (int i = 0; i < entityCount; i++)
         {
-            uint entityID = ECSManager.CreateEntity();
-            ECSManager.AddComponent<PositionComponent>(entityID,
+            uint entityID = EcsManager.CreateEntity();
+            EcsManager.AddComponent<PositionComponent>(entityID,
                 new PositionComponent(0, -i, 0));
-            ECSManager.AddComponent<VelocityComponent>(entityID,
+            EcsManager.AddComponent<VelocityComponent>(entityID,
                 new VelocityComponent(velocity, Vector3.right.x, Vector3.right.y, Vector3.right.z));
             entities.Add(entityID);
         }
@@ -36,7 +38,7 @@ public class ECSExample_ECSWhitoutGOs : MonoBehaviour
 
     void Update()
     {
-        ECSManager.Tick(Time.deltaTime);
+        EcsManager.Tick(Time.deltaTime);
     }
 
     void LateUpdate()
@@ -50,9 +52,9 @@ public class ECSExample_ECSWhitoutGOs : MonoBehaviour
         }
         Parallel.For(0, entities.Count, i =>
         {
-            PositionComponent position = ECSManager.GetComponent<PositionComponent>(entities[i]);
+            PositionComponent position = EcsManager.GetComponent<PositionComponent>(entities[i]);
             drawMatrix[(i / MAX_OBJS_PER_DRAWCALL)][(i % MAX_OBJS_PER_DRAWCALL)]
-            .SetTRS(new Vector3(position.X, position.Y, position.Z), Quaternion.identity, prefabScale);
+            .SetTRS(new Vector3(position.x, position.y, position.z), Quaternion.identity, prefabScale);
         });
         for (int i = 0; i < drawMatrix.Count; i++)
         {
