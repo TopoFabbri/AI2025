@@ -14,18 +14,14 @@ namespace Pathfinder.Algorithms
             List<TNodeType> astarPath = base.FindPath(startNode, destinationNode, graph);
             
             if (astarPath == null || astarPath.Count == 0) return astarPath;
-            
-            List<TNodeType> tmpPath = new();
             List<TNodeType> newPath = new();
 
-            foreach (TNodeType node in astarPath)
-                tmpPath.Add(node);
-
             TNodeType currentNode = startNode;
+            int counter = 0;
             
             do
             {
-                ICollection<TNodeType> bresenhamPath = graph.GetBresenhamNodes(currentNode.GetCoordinate(), tmpPath[^1].GetCoordinate());
+                ICollection<TNodeType> bresenhamPath = graph.GetBresenhamNodes(currentNode.GetCoordinate(), astarPath[counter].GetCoordinate());
                 
                 bool blocked = false;
 
@@ -36,22 +32,21 @@ namespace Pathfinder.Algorithms
                     blocked = true;
                     break;
                 }
-
+                
                 if (blocked)
                 {
-                    tmpPath.RemoveAt(tmpPath.Count - 1);
+                    newPath.Add(astarPath[counter - 1]);
+                    currentNode = astarPath[counter - 1];
                 }
                 else
                 {
-                    newPath.Add(tmpPath[^1]);
-                    currentNode = tmpPath[^1];
+                    if (counter == astarPath.Count - 1)
+                        newPath.Add(astarPath[counter]);
                     
-                    tmpPath.Clear();
-                    foreach (TNodeType node in astarPath)
-                        tmpPath.Add(node);
+                    counter++;
                 }
                 
-            } while (!currentNode.Equals(destinationNode));
+            } while (counter < astarPath.Count);
             
             return newPath;
         }

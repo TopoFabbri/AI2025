@@ -33,7 +33,7 @@ namespace Pathfinder.Graph
 
             foreach (KeyValuePair<Coordinate.Coordinate, Node<Coordinate.Coordinate>> node in Graph.Nodes)
             {
-                int cost = 0;// Random.Range(0, costRange);
+                const int cost = 0;
                     
                 node.Value.SetCost(cost);
                 CellView cellInstance = Instantiate(tile, new Vector3(node.Key.X, node.Key.Y, 0), Quaternion.identity);
@@ -54,10 +54,10 @@ namespace Pathfinder.Graph
         {
             Parallel.ForEach(Graph.Nodes, parallelOptions, node =>
             {
-                if (NodeIsPath(node.Value))
-                    cellViews[node.Key].SetValues(startColour, cellDrawSize);
-                else if (targetNodes.ContainsValue(node.Value))
+                if (targetNodes.ContainsValue(node.Value))
                     cellViews[node.Key].SetValues(destinationColour, cellDrawSize);
+                else if (NodeIsPath(node.Value))
+                    cellViews[node.Key].SetValues(startColour, cellDrawSize);
                 else if (node.Value.IsBlocked())
                     cellViews[node.Key].SetValues(blockedColour, cellDrawSize);
                 else

@@ -93,7 +93,7 @@ namespace Pathfinder.Graph
             int y = start.Y;
 
             // Main loop (identical structure to the classic integer Bresenham)
-            while (x != end.X || y != end.Y)
+            while (true)
             {
                 // PURE BRESENHAM: would directly record the integer point (x, y)
                 // HERE: we adapt it to the graph by creating a coordinate key and trying to fetch the node
